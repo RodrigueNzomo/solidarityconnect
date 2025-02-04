@@ -1,0 +1,4 @@
+backend-solidarityconnect/node_modules
+frontend-solidarityconnect/node_modules
+.env
+*.log

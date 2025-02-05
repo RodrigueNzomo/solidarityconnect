@@ -1,42 +1,46 @@
 version: '3'
-services:
-  frontend:
-    build:
-      context: ./frontend-solidarityconnect/frontend-solidarityconnect
-      dockerfile: Dockerfile
-    ports:
-      - "8081:80"
-    depends_on:
-      - backend
-    networks:
-      - solidarity-network
 
-  backend:
-    build:
-      context: ./backend-solidarityconnect
-      dockerfile: Dockerfile
-    ports:
-      - "5000:5000"
-    environment:
-      DB_HOST: ${DB_HOST:-db}
-      DB_USER: ${DB_USER:-rooter}
-      DB_PASSWORD: ${DB_PASSWORD:-Local123!}
-      DB_NAME: ${DB_NAME:-solidarityconnect}
-    depends_on:
-      - db
-    networks:
-      - solidarity-network
-    entrypoint: ["./wait-for-it.sh", "db:3306", "--", "npm", "start"]
+x-common-frontend-backend: &common-frontend-backend
+  networks:
+    - solidarity-network
 
-  db:
-    image: mysql:5.7
-    environment:
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-Local123!}
-      MYSQL_DATABASE: ${DB_NAME:-solidarityconnect}
-    volumes:
-      - db_data:/var/lib/mysql
-    networks:
-      - solidarity-network
+frontend:
+  build:
+    context: ./frontend-solidarityconnect/frontend-solidarityconnect
+    dockerfile: Dockerfile
+  security_opt:
+    - no-new-privileges=false  # Correction ici
+  ports:
+    - "8081:80"  # Port frontend accessible via http://localhost:8081
+  depends_on:
+    - backend
+  <<: *common-frontend-backend
+
+backend:
+  build:
+    context: ./backend-solidarityconnect
+    dockerfile: Dockerfile
+  ports:
+    - "5000:5000"  # Port backend accessible via http://localhost:5000
+  environment:
+    DB_HOST: db
+    DB_USER: rooter
+    DB_PASSWORD: Local123!
+    DB_NAME: solidarityconnect
+  depends_on:
+    - db
+  entrypoint: ["./wait-for-it.sh", "db:3306", "--", "npm", "start"]
+  <<: *common-frontend-backend
+
+db:
+  image: mysql:5.7
+  environment:
+    MYSQL_ROOT_PASSWORD: Local123!
+    MYSQL_DATABASE: solidarityconnect
+  volumes:
+    - db_data:/var/lib/mysql
+  networks:
+    - solidarity-network
 
 networks:
   solidarity-network:

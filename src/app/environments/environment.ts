@@ -5,7 +5,7 @@ export const environment = {
       host: "db",
       user: "rooter",
       password: "Local123!",
-      database: "solidarityconnect"
+      database: "SolidarityConnect_DB"
     }
   };
   

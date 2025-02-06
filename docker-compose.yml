@@ -1,13 +1,10 @@
-version: '3.8'  # Spécifie la version compatible
+version: '3.8'
 
-# Définition des services
 services:
   frontend:
     build:
       context: ./frontend-solidarityconnect/frontend-solidarityconnect
       dockerfile: Dockerfile
-    security_opt:
-      - no-new-privileges=false  # Correction ici
     ports:
       - "8081:80"  # Port frontend accessible via http://localhost:8081
     depends_on:
@@ -23,35 +20,41 @@ services:
       - "5000:5000"  # Port backend accessible via http://localhost:5000
     environment:
       DB_HOST: db
-      DB_USER: rooter
-      DB_PASSWORD: Local123!
-      DB_NAME: solidarityconnect
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
     depends_on:
       - db
     entrypoint: ["./wait-for-it.sh", "db:3306", "--", "npm", "start"]
     networks:
       - solidarity-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   db:
     image: mysql:5.7
     environment:
-      MYSQL_ROOT_PASSWORD: Local123!
-      MYSQL_DATABASE: solidarityconnect
-      MYSQL_USER: rooter
-      MYSQL_PASSWORD: Local123!
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
     volumes:
       - db_data:/var/lib/mysql
-    ports:
-      - "3307:3306"  # Port MySQL mappé correctement
     networks:
       - solidarity-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
-# Définition des réseaux
 networks:
   solidarity-network:
     driver: bridge
 
-# Définition des volumes
 volumes:
   db_data:
     driver: local

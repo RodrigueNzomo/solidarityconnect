@@ -1,4 +1,95 @@
+📌 README pour le Frontend (Angular 17 + SCSS)
+📂 Frontend - SolidarityConnect
+Ce répertoire contient le code source du frontend développé avec Angular 17, permettant aux utilisateurs d'interagir avec l'application SolidarityConnect.
 
+🏗 Installation et Configuration
+1️⃣ Prérequis
+Assurez-vous d'avoir installé :
+
+Node.js 18+
+Angular CLI
+Docker (optionnel)
+2️⃣ Cloner le projet
+bash
+Copier
+Modifier
+git clone https://github.com/RodrigueNzomo/solidarityconnect.git
+cd solidarityconnect/frontend-solidarityconnect
+3️⃣ Installer les dépendances
+bash
+Copier
+Modifier
+npm install
+🚀 Démarrer l’Application
+En mode développement
+bash
+Copier
+Modifier
+ng serve
+L’interface est accessible à : http://localhost:4200
+
+En mode production
+bash
+Copier
+Modifier
+ng build --configuration=production
+Les fichiers de build sont générés dans dist/frontend-solidarityconnect/.
+
+📜 Structure du Projet
+bash
+Copier
+Modifier
+frontend-solidarityconnect/
+│── src/
+│   ├── app/                    # Composants Angular
+│   ├── assets/                 # Images, icônes, styles globaux
+│   ├── environments/           # Configurations des environnements
+│   ├── styles.scss             # Styles globaux
+│── angular.json                # Configuration Angular
+│── package.json                # Dépendances du projet
+│── tsconfig.json               # Configuration TypeScript
+🌍 API Backend
+L’application se connecte au backend via environment.ts :
+
+typescript
+Copier
+Modifier
+export const environment = {
+  production: false,
+  apiUrl: 'http://localhost:5000/api'
+};
+🛠 Tests
+Lancer les tests unitaires :
+
+bash
+Copier
+Modifier
+ng test
+Lancer les tests end-to-end :
+
+bash
+Copier
+Modifier
+ng e2e
+🐳 Utilisation avec Docker
+1️⃣ Builder et exécuter l’image
+bash
+Copier
+Modifier
+docker build -t solidarityconnect_frontend .
+docker run -d --name frontend_container -p 8081:80 solidarityconnect_frontend
+L'application est accessible à : http://localhost:8081
+
+📌 Contribuer
+Fork le repo
+Crée une branche (git checkout -b feature/ma-feature)
+Ajoute tes modifications
+Fais un commit (git commit -m "Ajout de ma feature")
+Pousse tes modifications (git push origin feature/ma-feature)
+Crée une pull request
+📧 Contact : r.nzomo.tmrcomputing@gmail.com
+
+🚀 Merci de contribuer au développement du frontend de SolidarityConnect !
 # **SolidarityConnect**
 
 **SolidarityConnect** est une plateforme numérique dédiée à la gestion des services sociaux pour la diaspora camerounaise au Congo-Brazzaville. Ce projet comprend une application **frontend** et **backend** qui facilite la gestion des membres, des contributions sociales et des demandes d’assistance. Il permet au comité de gestion de suivre les contributions, gérer les inscriptions et assurer une communication fluide entre les utilisateurs et le comité.

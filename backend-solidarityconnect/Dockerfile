@@ -1,23 +1,24 @@
-# Étape 1 : Utiliser l'image officielle Node.js comme base
+# Utilisation de Node.js 16 comme base
 FROM node:16 AS build
 
-# Étape 2 : Définir un répertoire de travail
+# Définir le répertoire de travail correct
 WORKDIR /usr/src/app
 
-# Étape 3 : Copier les fichiers de configuration npm avant d'installer les dépendances
+# Copier uniquement les fichiers nécessaires pour l'installation des dépendances
 COPY package*.json ./
 
-# Étape 4 : Installer uniquement les dépendances de production (si applicable)
-RUN npm install --only=production
+# Installer les dépendances de production
+RUN apt-get update && apt-get install -y netcat && rm -rf /var/lib/apt/lists/*
+RUN NODE_ENV=production npm install --only=production
 
-# Étape 5 : Copier uniquement les fichiers nécessaires
-COPY . .
+# Copier tout le projet dans le conteneur
+COPY . . 
 
-# Étape 6 : Donner les permissions d'exécution au script d'attente pour la base de données
+# Donner les permissions au script wait-for-it.sh s'il existe
 RUN chmod +x /usr/src/app/wait-for-it.sh
 
-# Étape 7 : Exposer le port utilisé par l'application
+# Exposer le port 5000
 EXPOSE 5000
 
-# Étape 8 : Définir l'entrée du conteneur
-CMD ["/usr/src/app/wait-for-it.sh", "db:3306", "--", "npm", "start"]
+# Lancer l'application avec app.js qui est à la racine
+CMD ["/usr/src/app/wait-for-it.sh", "db:3306", "--", "node", "app.js"]

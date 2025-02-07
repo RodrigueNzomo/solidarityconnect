@@ -1,38 +1,44 @@
-// Importation de Sequelize, un ORM pour gérer la base de données MySQL.
 const { Sequelize } = require("sequelize");
-
-// Chargement des variables d'environnement à partir du fichier .env
 require("dotenv").config();
 
-// Affichage des variables d'environnement pour déboguer et vérifier si elles sont bien chargées
-console.log("🔍 DEBUG - Variables d'environnement chargées :", process.env);
+console.log("🔍 DEBUG - Vérification des variables d'environnement :", {
+  DB_NAME: process.env.DB_NAME,
+  DB_USER: process.env.DB_USER,
+  DB_HOST: process.env.DB_HOST,
+  DB_PORT: process.env.DB_PORT,
+  DB_PASSWORD: process.env.DB_PASSWORD ? "✅ Présent" : "❌ Manquant",
 
-// Affichage des informations de connexion MySQL pour vérifier que tout est bien configuré
-console.log("🔍 Connexion MySQL avec :", {
-  database: process.env.DB_NAME,  // Nom de la base de données
-  user: process.env.DB_USER,      // Utilisateur MySQL
-  password: process.env.DB_PASS,  // Mot de passe de l'utilisateur (à vérifier)
-  host: process.env.DB_HOST,      // Hôte de la base de données (généralement 'localhost')
-  port: process.env.DB_PORT       // Port MySQL (par défaut 3306)
 });
 
-// Création d'une instance de Sequelize pour gérer la connexion à la base de données MySQL
 const sequelize = new Sequelize(
-  process.env.DB_NAME,  // Nom de la base de données
-  process.env.DB_USER,  // Nom d'utilisateur pour se connecter à la base de données
-  process.env.DB_PASS,  // Mot de passe de l'utilisateur
+  process.env.DB_NAME,
+  process.env.DB_USER,
+  process.env.DB_PASSWORD,
+
   {
-    host: process.env.DB_HOST,   // Hôte où la base de données est hébergée
-    port: process.env.DB_PORT,   // Port utilisé pour se connecter à MySQL
-    dialect: "mysql",            // Type de base de données utilisé (MySQL)
-    logging: console.log,        // Activation du logging des requêtes SQL dans la console
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    dialect: "mysql",
+    pool: {
+      max: 10,
+      min: 0,
+      acquire: 30000,
+      idle: 10000,
+    },
+    logging: process.env.NODE_ENV !== "production" ? console.log : false,
   }
 );
 
-// Test de la connexion à la base de données en utilisant la méthode `authenticate` de Sequelize
-sequelize.authenticate()
-  .then(() => console.log("✅ Connexion MySQL réussie !"))  // Si la connexion est réussie, afficher ce message
-  .catch(err => console.error("❌ Erreur de connexion MySQL :", err));  // Si une erreur survient, afficher l'erreur
+(async () => {
+  try {
+    await sequelize.authenticate();
+    console.log("✅ Connexion MySQL réussie !");
+    await sequelize.sync({ alter: true });
+    console.log("✅ Base de données synchronisée !");
+  } catch (error) {
+    console.error("❌ Erreur de connexion MySQL :", error);
+    process.exit(1);
+  }
+})();
 
-// Exportation de l'instance Sequelize pour l'utiliser ailleurs dans l'application
 module.exports = sequelize;

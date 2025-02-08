@@ -57,6 +57,8 @@ services:
       MYSQL_PASSWORD: Local123!
     volumes:
       - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
     networks:
       - solidarity-network
     deploy:

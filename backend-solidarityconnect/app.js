@@ -65,7 +65,10 @@ app.use(errorHandler);
 // Explication : Tente de se connecter à la base de données MySQL et de synchroniser les modèles. En cas d'échec, affiche une erreur et termine l'application.
 // Alternative : Ajoutez une option pour ignorer la synchronisation automatique si elle n'est pas nécessaire (par exemple, dans un environnement de production) :
 // await db.sync({ alter: false }); // Ne modifie pas la structure existante.
-
+// Route de test pour vérifier si le backend fonctionne
+app.get('/', (req, res) => {
+  res.send('🚀 Backend SolidarityConnect fonctionne !');
+});
 const PORT = process.env.PORT || 5000;
 // Explication : Lit le port depuis les variables d'environnement ou utilise 5000 comme valeur par défaut.
 // Alternative : Si vous utilisez un gestionnaire de processus comme PM2, laissez le port être défini dynamiquement.

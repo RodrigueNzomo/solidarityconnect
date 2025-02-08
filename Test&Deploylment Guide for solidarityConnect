@@ -1,0 +1,134 @@
+
+# **Guide Complet d'Accès et de Déploiement du Projet SolidarityConnect**
+
+## **📌 Introduction**
+Ce document fournit **toutes les méthodes possibles** pour accéder, tester et donner un retour d’expérience sur le projet **SolidarityConnect**. Que vous soyez développeur, testeur ou simple utilisateur, vous trouverez ici **toutes les étapes nécessaires** pour interagir avec le projet.
+
+## **1️⃣ Accéder au Code Source**
+Le code source du projet est disponible sur **GitHub** :
+- 🔗 **Lien GitHub** : [SolidarityConnect](https://github.com/RodrigueNzomo/solidarityconnect.git)
+- 🖥️ **Cloner le dépôt GitHub** :
+
+```bash
+git clone https://github.com/RodrigueNzomo/solidarityconnect.git
+cd solidarityconnect
+```
+
+Si vous utilisez SSH :
+```bash
+git clone git@github.com:RodrigueNzomo/solidarityconnect.git
+cd solidarityconnect
+```
+
+## **2️⃣ Accéder aux Images Docker sur Docker Hub**
+Le projet est également disponible sous forme de conteneurs Docker sur **Docker Hub** :
+- 🔗 **Lien Docker Hub** : [Docker Hub - RodrigueNzomo](https://hub.docker.com/u/dockerrodrigue)
+- 🐳 **Télécharger les images Docker** :
+
+```bash
+docker pull dockerrodrigue/solidarityconnect-backend:latest
+docker pull dockerrodrigue/solidarityconnect-frontend:latest
+docker pull dockerrodrigue/solidarityconnect-db:latest
+```
+
+## **3️⃣ Exécuter le Projet en Local avec Docker Compose**
+
+### **📌 Prérequis**
+Avant de commencer, assurez-vous d’avoir **Docker et Docker Compose** installés.
+- 📥 Télécharger Docker Desktop : [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+- 📥 Installer Docker Compose :
+```bash
+sudo apt-get install docker-compose -y  # Pour Linux
+```
+
+### **📌 Lancer l’application avec Docker Compose**
+```bash
+cd solidarityconnect
+docker-compose up -d
+```
+
+Après quelques secondes, votre projet sera disponible aux adresses suivantes :
+- **Frontend Angular** : [http://localhost:8081](http://localhost:8081)
+- **Backend API (Node.js)** : [http://localhost:5000](http://localhost:5000)
+- **Base de données MySQL** : `mysql://root:Local123!@localhost:3306/SolidarityConnect_DB`
+
+📌 **Pour arrêter les conteneurs** :
+```bash
+docker-compose down
+```
+
+## **4️⃣ Tester l’API avec Postman ou cURL**
+
+### **📌 Tester l’authentification avec Postman**
+1. **Créer un utilisateur** (Inscription) :
+```bash
+curl -X POST "http://localhost:5000/api/register" -H "Content-Type: application/json" -d '{"username": "testuser", "password": "testpass"}'
+```
+
+2. **Se connecter** :
+```bash
+curl -X POST "http://localhost:5000/api/login" -H "Content-Type: application/json" -d '{"username": "testuser", "password": "testpass"}'
+```
+
+3. **Obtenir les données protégées** (nécessite un token JWT) :
+```bash
+curl -H "Authorization: Bearer YOUR_ACCESS_TOKEN" http://localhost:5000/api/protected-route
+```
+
+## **5️⃣ Déployer sur un Serveur VPS (AWS, DigitalOcean, OVH)**
+Si vous souhaitez héberger l’application en production, voici les étapes générales :
+
+### **📌 Installer Docker et Docker Compose sur un serveur Linux**
+```bash
+sudo apt update && sudo apt upgrade -y
+sudo apt install docker.io -y
+sudo systemctl start docker
+sudo systemctl enable docker
+```
+
+### **📌 Copier le projet sur le serveur**
+```bash
+scp -r solidarityconnect user@your-server-ip:/home/user/
+ssh user@your-server-ip
+```
+
+### **📌 Exécuter Docker Compose sur le serveur**
+```bash
+cd solidarityconnect
+docker-compose up -d
+```
+
+Votre projet sera désormais accessible à distance via **l’IP publique du serveur**.
+
+## **6️⃣ Déployer le Frontend sur Netlify ou Vercel**
+
+### **📌 Déployer sur Netlify**
+1. **Créer un compte sur [Netlify](https://www.netlify.com/)**
+2. **Lier le dépôt GitHub**
+3. **Spécifier les paramètres de build** :
+   - **Command:** `npm run build`
+   - **Publish directory:** `dist/frontend-solidarityconnect/browser`
+4. **Déployer !** 🚀
+
+### **📌 Déployer sur Vercel**
+1. **Créer un compte sur [Vercel](https://vercel.com/)**
+2. **Lier le dépôt GitHub**
+3. **Déployer en un clic !**
+
+## **7️⃣ Donnez Votre Avis 🗣️**
+Nous aimerions avoir vos retours ! Vous pouvez nous aider à améliorer le projet en :
+- **Ouvrant une issue sur GitHub** : [Créer une issue](https://github.com/RodrigueNzomo/solidarityconnect/issues)
+- **Discutant sur Docker Hub** : [Docker Hub](https://hub.docker.com/u/dockerrodrigue)
+- **Contactant l’équipe de développement** 👨‍💻👩‍💻
+
+## **📌 Conclusion**
+Ce document vous permet d'accéder au projet SolidarityConnect **par tous les moyens possibles** :
+✅ **GitHub** pour le code source 🖥️  
+✅ **Docker Hub** pour les images Docker 🐳  
+✅ **Docker Compose** pour un déploiement local rapide ⚙️  
+✅ **Hébergement en ligne (Netlify, Vercel, VPS)** pour tester sur Internet 🌍  
+✅ **Interaction avec l’API via Postman ou cURL** 🛠️  
+
+📢 **Merci de tester et de partager vos retours !** 🚀
+```
+🎯

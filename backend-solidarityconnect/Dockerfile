@@ -1,44 +1,50 @@
-# Utilisation de Node.js 16 comme base
-FROM node:16 AS build
-# Explication : Cette ligne utilise l'image officielle Node.js 16 comme base pour le conteneur.
-# Alternative : Si vous avez besoin d'une version plus récente ou plus légère, envisagez d'utiliser `node:18-alpine` pour réduire la taille de l'image.
+# Utilisation de Node.js 18 comme base
+FROM node:18 AS build
+# Explication : Utilisation de Node.js 18, version plus récente et stable que Node.js 16.
+# Alternative : Si l'objectif est de minimiser la taille de l'image, utiliser `node:18-alpine` qui est plus légère.
 
-# Définir le répertoire de travail correct
-WORKDIR /usr/src/app
-# Explication : Définit le répertoire de travail dans le conteneur. Toutes les commandes suivantes seront exécutées à partir de ce répertoire.
-# Alternative : Vous pouvez choisir un autre chemin si nécessaire, mais `/usr/src/app` est une convention courante.
+# Définition du répertoire de travail
+WORKDIR /app
+# Explication : Définit le dossier de travail du conteneur où seront exécutées les commandes suivantes.
+# Alternative : `/usr/src/app` est parfois utilisé par convention, mais `/app` est plus court et lisible.
 
-# Copier uniquement les fichiers nécessaires pour l'installation des dépendances
+# Définir l'environnement en production
+ENV NODE_ENV=production
+# Explication : Définit `NODE_ENV=production` globalement pour optimiser les performances et exclure les dépendances inutiles.
+# Alternative : Si vous avez besoin d'exécuter des tests dans le conteneur, passez `NODE_ENV=development`.
+
+# Copier uniquement les fichiers nécessaires pour l’installation des dépendances
 COPY package*.json ./
-# Explication : Copie uniquement les fichiers `package.json` et `package-lock.json` dans le conteneur pour minimiser le nombre de couches et améliorer la mise en cache.
-# Alternative : Si vous utilisez Yarn, copiez également `yarn.lock` : `COPY package.json yarn.lock ./`.
+# Explication : Seuls les fichiers `package.json` et `package-lock.json` sont copiés d’abord pour optimiser la mise en cache.
+# Alternative : Si vous utilisez Yarn, ajoutez `yarn.lock` : `COPY package.json yarn.lock ./`.
 
-# Installer les dépendances de production
-RUN apt-get update && apt-get install -y netcat && rm -rf /var/lib/apt/lists/*
-# Explication : Met à jour les paquets APT, installe `netcat` (outil réseau), puis nettoie les fichiers inutiles pour réduire la taille de l'image.
-# Alternative : Pour une image plus légère, évitez d'utiliser `apt-get` et intégrez les outils nécessaires via des images de base comme `alpine`.
+# Installation des dépendances de production
+RUN apt-get update && apt-get install -y netcat-openbsd && rm -rf /var/lib/apt/lists/*
 
-RUN NODE_ENV=production npm install --only=production
-# Explication : Installe uniquement les dépendances de production en définissant `NODE_ENV=production` pour optimiser la taille du conteneur.
-# Alternative : Utilisez `--omit=dev` à la place de `--only=production` pour obtenir le même résultat avec une syntaxe plus moderne.
+# Explication : Met à jour les paquets et installe `netcat`, qui permet d'attendre que la base de données soit prête.
+# Alternative : Évitez d'utiliser `apt-get` si ce n'est pas nécessaire, ou utilisez une image Alpine avec `apk add netcat`.
 
-# Copier tout le projet dans le conteneur
+RUN npm install --omit=dev
+# Explication : Installe uniquement les dépendances essentielles pour la production (`omit=dev` exclut les dépendances de développement).
+# Alternative : `npm ci` peut être utilisé si vous voulez garantir une installation propre et rapide en production.
+
+# Copier le reste du projet dans le conteneur
 COPY . .
-# Explication : Copie tous les fichiers du projet dans le conteneur. Cela inclut le code source et d'autres ressources nécessaires.
-# Alternative : Si certaines parties du projet ne sont pas nécessaires au runtime, utilisez un `.dockerignore` pour exclure ces fichiers.
+# Explication : Copie tout le code source dans l’image après installation des dépendances pour éviter de casser le cache Docker.
+# Alternative : Utiliser un fichier `.dockerignore` pour exclure les fichiers inutiles (`node_modules`, `.git`, `.env`…).
 
-# Donner les permissions au script wait-for-it.sh s'il existe
-RUN chmod +x /usr/src/app/wait-for-it.sh
-# Explication : Rend le script `wait-for-it.sh` exécutable pour permettre l'attente du service de base de données avant de démarrer l'application.
-# Alternative : Intégrez directement une solution native Node.js pour gérer la détection de la disponibilité du service (par exemple, avec une bibliothèque comme `mysql-ping`).
+# Donner les permissions au script wait-for-it.sh
+RUN chmod +x /app/wait-for-it.sh
+# Explication : Rend le script exécutable pour attendre la base de données avant de lancer l’application.
+# Alternative : Remplacer `wait-for-it.sh` par une logique native en Node.js pour une meilleure intégration.
 
-# Exposer le port 5000
+# Exposer le port utilisé par l’application
 EXPOSE 5000
-# Explication : Indique que le conteneur écoute sur le port 5000. Cela ne publie pas automatiquement le port, mais documente son utilisation.
-# Alternative : Si votre application peut fonctionner sur un autre port, ajustez cette valeur en conséquence.
+# Explication : Indique que l’application écoute sur le port 5000.
+# Alternative : Si l'application utilise un port configurable via une variable d’environnement, utilisez `$PORT`.
 
-# Lancer l'application avec app.js qui est à la racine
-CMD ["/usr/src/app/wait-for-it.sh", "db:3306", "--", "node", "app.js"]
-# Explication : Lance le script `wait-for-it.sh` pour attendre que la base de données soit prête, puis démarre l'application Node.js avec `app.js`.
-# Alternative : Considérez l'utilisation d'un gestionnaire de processus comme `pm2` pour une meilleure gestion des processus et de la récupération après crash :
-# CMD ["pm2", "start", "app.js", "--no-daemon"]
+# Lancer l’application avec `wait-for-it.sh` pour attendre MySQL avant de démarrer Node.js
+CMD ["/app/wait-for-it.sh", "db:3306", "--", "node", "app.js"]
+# Explication : Exécute `wait-for-it.sh` pour s’assurer que la base de données est prête avant de lancer le backend.
+# Alternative : Utiliser `pm2` pour gérer les processus et permettre le redémarrage automatique :
+# CMD ["pm2-runtime", "app.js"]

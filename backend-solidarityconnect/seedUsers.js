@@ -1,5 +1,6 @@
 const { Sequelize, DataTypes } = require("sequelize");
-const bcrypt = require("bcrypt");
+const bcrypt = require('bcryptjs');
+
 
 const sequelize = new Sequelize("SolidarityConnect_DB", "root", "Local123!", {
   host: "127.0.0.1",

@@ -1,0 +1,38 @@
+<div class="login-page">
+  <div class="login-container">
+    <h2>Connexion</h2>
+    <form (ngSubmit)="onLogin()">
+      <input type="email" [(ngModel)]="email" name="email" required placeholder="Email">
+      <input type="password" [(ngModel)]="password" name="password" required placeholder="Mot de passe">
+      
+      <button type="submit" class="btn-login">Se connecter</button>
+      <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
+    </form>
+
+    <!-- Lien pour s'inscrire -->
+    <p class="register-link">
+      Pas encore de compte ? <a routerLink="/register">Inscrivez-vous ici</a>
+    </p>
+
+    <!-- Lien pour réinitialiser le mot de passe -->
+    <p class="forgot-password">
+      <a href="#">Mot de passe oublié ?</a>
+    </p>
+  </div>
+
+  <!-- Section d'information -->
+  <div class="info-container">
+    <h3>Pourquoi s'inscrire ?</h3>
+    <p>
+      Rejoignez <strong>SolidarityConnect</strong> et bénéficiez d'une mise en relation avec 
+      des bénévoles et des organisations pour un soutien solidaire.
+    </p>
+    <ul>
+      <li>Accédez à des aides et services personnalisés.</li>
+      <li>Faites partie d'une communauté engagée.</li>
+      <li>Recevez des notifications sur les actions solidaires.</li>
+    </ul>
+    
+    <a routerLink="/register" class="btn-more">En savoir plus</a>
+  </div>
+</div>

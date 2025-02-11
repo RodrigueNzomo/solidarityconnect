@@ -1,160 +1,95 @@
 version: '3.8'
-# Explication : Spécifie la version du format Docker Compose. La version 3.8 est bien adaptée pour les déploiements complexes.
-# Alternative : Si vous utilisez Docker Compose v2 ou v3, assurez-vous que cette version est compatible avec vos outils.
 
 services:
   frontend:
     build:
       context: ./frontend-solidarityconnect
       dockerfile: Dockerfile
-    # Explication : Définit le service "frontend" avec un contexte de construction personnalisé pointant vers le répertoire contenant le Dockerfile.
-    # Alternative : Pour des environnements multi-variants (par exemple, développement vs production), utilisez des arguments lors de la construction (`args`) ou plusieurs Dockerfiles distincts.
-
+      args:
+        - DOCKER_BUILDKIT=0
     ports:
       - "8081:80"
-    # Explication : Mappe le port 80 du conteneur au port 8081 de l'hôte, permettant d'accéder à l'application via `http://localhost:8081`.
-    # Alternative : Pour éviter les conflits de ports, utilisez des ports dynamiques ou configurez un proxy inverse comme Nginx.
-
     depends_on:
       - backend
-    # Explication : Indique que le service "frontend" dépend du service "backend". Cependant, cela ne garantit pas que "backend" sera prêt avant "frontend".
-    # Alternative : Utilisez un script d'attente (`wait-for-it.sh`) ou une condition basée sur la santé du service pour une gestion plus robuste des dépendances.
-
     networks:
       - solidarity-network
-    # Explication : Connecte le service "frontend" au réseau "solidarity-network", permettant la communication avec d'autres services dans ce réseau.
-    # Alternative : Aucune alternative significative ici, car c'est une bonne pratique standard.
-
     deploy:
       resources:
         limits:
           cpus: "0.5"
           memory: "512M"
-    # Explication : Limite les ressources allouées au service "frontend" à 0,5 CPU et 512 Mo de mémoire.
-    # Alternative : Ajustez ces valeurs selon les besoins spécifiques de votre application et les contraintes de votre infrastructure.
-
     restart: unless-stopped
-    # Explication : Redémarre automatiquement le conteneur sauf si il est arrêté manuellement.
-    # Alternative : Pour des environnements de test ou de développement, utilisez `no` pour éviter les redémarrages automatiques.
 
   backend:
     build:
       context: ./backend-solidarityconnect
       dockerfile: Dockerfile
-    # Explication : Définit le service "backend" avec un contexte de construction personnalisé.
-    # Alternative : Si vous utilisez des images prédéfinies, remplacez cette section par `image: nom-de-l'image`.
-
+      args:
+        - DOCKER_BUILDKIT=0
     ports:
       - "5000:5000"
-    # Explication : Mappe le port 5000 du conteneur au port 5000 de l'hôte.
-    # Alternative : Pour des déploiements à grande échelle, envisagez l'utilisation de load balancers ou de reverse proxies pour gérer les connexions.
-
     environment:
       DB_HOST: db
-      DB_USER: root
+      DB_USER: admin  # ✅ Changer "root" par "admin" pour éviter les conflits
       DB_PASSWORD: Local123!
       DB_NAME: SolidarityConnect_DB
       DB_PORT: 3306
       PORT: 5000
       JWT_SECRET: mon_secret_jwt
-    # Explication : Définit les variables d'environnement nécessaires pour la connexion à la base de données MySQL.
-    # Alternative : Externalisez ces variables dans un fichier `.env` pour améliorer la sécurité et la modularité.
-
     depends_on:
       db:
         condition: service_healthy
-    # Explication : Assure que le service "backend" ne démarre que lorsque le service "db" est en état de santé ("healthy").
-    # Alternative : Ajoutez un délai supplémentaire ou un script personnalisé pour vérifier explicitement la disponibilité de la base de données.
-
-    entrypoint: ["sh", "-c", "sleep 5 && npm start"]
-    # Explication : Attend 5 secondes après le démarrage du conteneur avant d'exécuter `npm start`. Cela permet de donner du temps aux autres services de se stabiliser.
-    # Alternative : Implémentez un mécanisme plus sophistiqué pour détecter la disponibilité des services dépendants (par exemple, une requête ping).
-
+    entrypoint: ["sh", "-c", "sleep 10 && npm start"]  # ✅ Attente plus longue pour s'assurer que MySQL est bien démarré
     networks:
       - solidarity-network
-    # Explication : Connecte le service "backend" au réseau "solidarity-network".
-    # Alternative : Aucune alternative significative ici, car c'est une bonne pratique standard.
-
     deploy:
       resources:
         limits:
           cpus: "1.0"
           memory: "768M"
-    # Explication : Limite les ressources allouées au service "backend" à 1 CPU et 768 Mo de mémoire.
-    # Alternative : Ajustez ces valeurs selon les performances réelles de votre application et les contraintes de votre infrastructure.
-
     restart: unless-stopped
     logging:
       driver: "json-file"
       options:
         max-size: "10m"
         max-file: "3"
-    # Explication : Configure le journaling pour limiter la taille des logs à 10 Mo avec un maximum de 3 fichiers.
-    # Alternative : Intégrez un système centralisé de logs (par exemple, Fluentd, Logstash) pour une gestion plus avancée.
 
   db:
     image: mysql:5.7
     container_name: projetssoutenanceperso202510000codeurs_db_1
-    # Explication : Utilise l'image officielle MySQL 5.7 avec un nom de conteneur personnalisé.
-    # Alternative : Supprimez `container_name` pour une gestion automatique des noms par Docker Compose, facilitant ainsi les mises à jour.
-
     environment:
-      MYSQL_ROOT_PASSWORD: Local123!
+      MYSQL_ROOT_PASSWORD: Local123!  # ✅ Conserver cette ligne
       MYSQL_DATABASE: SolidarityConnect_DB
-      MYSQL_USER: root
+      MYSQL_USER: admin  # ✅ Créer un utilisateur spécifique autre que root
       MYSQL_PASSWORD: Local123!
-    # Explication : Configure les paramètres de la base de données MySQL.
-    # Alternative : Externalisez ces variables dans un fichier `.env` pour améliorer la sécurité et faciliter la gestion des configurations.
-
     volumes:
       - db_data:/var/lib/mysql
-    # Explication : Monte un volume persistant pour stocker les données de la base de données.
-    # Alternative : Pour des tests ou des environnements temporaires, supprimez cette section, mais cela effacera toutes les données à chaque redémarrage.
-
     ports:
-      - "3306:3306"
-    # Explication : Mappe le port 3306 du conteneur au port 3306 de l'hôte.
-    # Alternative : Si la base de données est uniquement utilisée internement, supprimez cette ligne pour éviter toute exposition publique inutile.
-
+      - "3307:3306"  # ✅ Changer le port sur l’hôte pour éviter les conflits
     networks:
       - solidarity-network
-    # Explication : Connecte le service "db" au réseau "solidarity-network".
-    # Alternative : Aucune alternative significative ici, car c'est une bonne pratique standard.
-
     deploy:
       resources:
         limits:
           cpus: "0.8"
           memory: "1G"
-    # Explication : Limite les ressources allouées au service "db" à 0,8 CPU et 1 Go de mémoire.
-    # Alternative : Ajustez ces valeurs selon les besoins réels de votre base de données et les contraintes de votre infrastructure.
-
     restart: unless-stopped
     logging:
       driver: "json-file"
       options:
         max-size: "10m"
         max-file: "3"
-    # Explication : Configure le journaling pour limiter la taille des logs à 10 Mo avec un maximum de 3 fichiers.
-    # Alternative : Intégrez un système centralisé de logs (par exemple, Fluentd, Logstash) pour une meilleure gestion des logs.
-
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "admin", "-pLocal123!"]
       interval: 10s
       retries: 5
       start_period: 20s
       timeout: 5s
-    # Explication : Vérifie régulièrement la santé du service "db" en exécutant une commande `mysqladmin ping`.
-    # Alternative : Utilisez une requête SQL simple ou un outil tiers pour des tests de santé plus précis.
 
 networks:
   solidarity-network:
     driver: bridge
-    # Explication : Crée un réseau bridge personnalisé pour connecter les services entre eux.
-    # Alternative : Pour des déploiements Swarm, envisagez un réseau overlay pour une meilleure isolation et scalabilité.
 
 volumes:
   db_data:
     driver: local
-    # Explication : Définit un volume persistant pour stocker les données de la base de données.
-    # Alternative : Si vous utilisez un fournisseur cloud, configurez un volume basé sur leur infrastructure (par exemple, AWS EBS, Azure Disk).

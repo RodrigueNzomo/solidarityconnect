@@ -1,0 +1,114 @@
+/* 🌟 NAVBAR MODERNE ET DYNAMIQUE */
+.navbar {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    padding: 15px 30px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease-in-out;
+}
+
+/* 🔥 Animation au survol */
+.navbar:hover {
+    background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+}
+
+/* 🏆 Logo et Marque */
+.navbar-brand {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+}
+
+.navbar-brand img {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+    border-radius: 50%;
+}
+
+/* 📌 Liens de Navigation */
+.navbar-nav {
+    display: flex;
+    gap: 20px;
+}
+
+.nav-link {
+    color: white;
+    font-weight: 500;
+    font-size: 1.1rem;
+    transition: all 0.3s ease-in-out;
+    position: relative;
+}
+
+/* 🌟 Effet souligné au survol */
+.nav-link::after {
+    content: "";
+    display: block;
+    width: 0;
+    height: 3px;
+    background: var(--accent-color);
+    transition: width 0.3s ease-in-out;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -5px;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+.nav-link:hover {
+    color: var(--accent-color);
+}
+
+/* 🔥 Bouton de connexion */
+.navbar .btn-login {
+    background: var(--accent-color);
+    color: white;
+    font-weight: bold;
+    padding: 8px 15px;
+    border-radius: 20px;
+    transition: all 0.3s ease-in-out;
+    border: none;
+}
+
+.navbar .btn-login:hover {
+    background: white;
+    color: var(--accent-color);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* 📌 Icône du menu burger */
+.navbar-toggler {
+    background: rgba(255, 255, 255, 0.8);
+    border: none;
+    padding: 8px;
+    border-radius: 5px;
+}
+
+.navbar-toggler-icon {
+    filter: invert(1);
+}
+
+/* 📱 RESPONSIVE DESIGN */
+@media (max-width: 992px) {
+    .navbar-nav {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .nav-link {
+        font-size: 1rem;
+        padding: 10px;
+    }
+
+    .navbar .btn-login {
+        width: 100%;
+        text-align: center;
+    }
+}

@@ -1,100 +1,127 @@
-const bcrypt = require("bcrypt");
-// Explication : Importe la bibliothèque `bcrypt` pour hacher les mots de passe avant leur stockage en base de données.
-// Alternative : Si vous souhaitez utiliser une bibliothèque plus moderne ou légère, envisagez `argon2` ou `scrypt`.
+const bcrypt = require("bcryptjs");
 
 module.exports = (sequelize, DataTypes) => {
-  const User = sequelize.define("User", {
-    // Définition du modèle `User` avec ses attributs et leurs validations.
+  if (!sequelize || !DataTypes) {
+    console.error("❌ Sequelize ou DataTypes non définis dans User.js !");
+    throw new Error("Sequelize et DataTypes doivent être fournis.");
+  }
 
-    id: { 
-      type: DataTypes.INTEGER, 
-      primaryKey: true, 
-      autoIncrement: true 
+  const User = sequelize.define(
+    "User",
+    {
+      id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+      },
+      firstName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: true, // Empêche les chaînes vides
+        },
+      },
+      lastName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: true, // Empêche les chaînes vides
+        },
+      },
+      birthDate: {
+        type: DataTypes.DATEONLY,
+        allowNull: false,
+      },
+      gender: {
+        type: DataTypes.ENUM("Homme", "Femme"),
+        allowNull: false,
+      },
+      maritalStatus: {
+        type: DataTypes.ENUM("Célibataire", "Marié(e)", "Veuf(ve)"),
+        allowNull: false,
+      },
+      childrenCount: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
+        validate: {
+          min: 0, // Empêche les valeurs négatives
+        },
+      },
+      email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+        validate: {
+          isEmail: true, // Validation du format email
+        },
+      },
+      phone: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+        validate: {
+          is: /^[0-9]{10}$/i, // Valide un numéro de téléphone de 10 chiffres
+        },
+      },
+      address: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      job: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      userRole: {
+        type: DataTypes.ENUM("Personne en difficulté", "Bénévole"),
+        allowNull: false,
+      },
+      needs: {
+        type: DataTypes.ENUM(
+          "Logement",
+          "Nourriture",
+          "Aide financière",
+          "Accompagnement social"
+        ),
+        allowNull: true,
+      },
+      skills: {
+        type: DataTypes.ENUM(
+          "Aide médicale",
+          "Aide juridique",
+          "Éducation",
+          "Accompagnement social"
+        ),
+        allowNull: true,
+      },
+      password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      role: {
+        type: DataTypes.ENUM("admin", "user", "moderator"),
+        allowNull: false,
+        defaultValue: "user",
+      },
     },
-    // Explication : La colonne `id` est définie comme un entier auto-incrémenté et sert de clé primaire pour identifier chaque utilisateur.
-    // Alternative : Pour des systèmes nécessitant des identifiants globaux uniques, remplacez `INTEGER` par `UUID` et utilisez `defaultValue: DataTypes.UUIDV4`.
-
-    firstName: { 
-      type: DataTypes.STRING, 
-      allowNull: false 
-    },
-    // Explication : La colonne `firstName` est une chaîne de caractères obligatoire. Chaque utilisateur doit avoir un prénom défini.
-    // Alternative : Ajoutez des validations supplémentaires pour interdire certains caractères spéciaux ou limiter la longueur (par exemple, `validate: { len: [2, 50] }`).
-
-    lastName: { 
-      type: DataTypes.STRING, 
-      allowNull: false 
-    },
-    // Explication : La colonne `lastName` est une chaîne de caractères obligatoire. Chaque utilisateur doit avoir un nom défini.
-    // Alternative : Comme pour `firstName`, ajoutez des validations pour renforcer la qualité des données.
-
-    username: { 
-      type: DataTypes.STRING, 
-      allowNull: false, 
-      unique: true 
-    },
-    // Explication : La colonne `username` est une chaîne de caractères obligatoire et doit être unique dans toute la table.
-    // Alternative : Si vous permettez plusieurs utilisateurs avec le même nom d'utilisateur dans des contextes différents, supprimez `unique: true` et implémentez une contrainte composite.
-
-    email: { 
-      type: DataTypes.STRING, 
-      allowNull: false, 
-      unique: true 
-    },
-    // Explication : La colonne `email` est une chaîne de caractères obligatoire et doit être unique dans toute la table.
-    // Alternative : Ajoutez une validation pour vérifier le format e-mail (`validate: { isEmail: true }`) si ce n'est pas déjà inclus dans vos configurations.
-
-    phone: { 
-      type: DataTypes.STRING, 
-      allowNull: false, 
-      unique: true 
-    },
-    // Explication : La colonne `phone` est une chaîne de caractères obligatoire et doit être unique dans toute la table.
-    // Alternative : Implémentez une validation personnalisée pour vérifier que la valeur correspond à un format de numéro de téléphone valide (par exemple, `validate: { is: /^[0-9]{9,15}$/i }`).
-
-    address: { 
-      type: DataTypes.STRING, 
-      allowNull: true 
-    },
-    // Explication : La colonne `address` est une chaîne de caractères facultative. Elle peut être vide si l'utilisateur ne souhaite pas fournir d'adresse.
-    // Alternative : Si l'adresse est obligatoire, changez `allowNull: true` en `allowNull: false` et assurez-vous que cette valeur est toujours fournie lors de la création.
-
-    specialty: { 
-      type: DataTypes.ENUM("Développeur", "Admin Système", "Data Analyst", "Cyber Sécurité", "Autre"), 
-      allowNull: false, 
-      defaultValue: "Autre" 
-    },
-    // Explication : La colonne `specialty` est une énumération limitée à un ensemble prédéfini de valeurs. Une valeur par défaut ("Autre") est définie si aucune spécialité n'est spécifiée.
-    // Alternative : Si vous prévoyez des spécialités extensibles, remplacez `ENUM` par `STRING` et gérez les options via une logique métier ou une table séparée.
-
-    password: { 
-      type: DataTypes.STRING, 
-      allowNull: false 
-    },
-    // Explication : La colonne `password` est une chaîne de caractères obligatoire. Le mot de passe sera haché avant d'être stocké grâce au hook `beforeCreate`.
-    // Alternative : Ajoutez des validations pour imposer des critères de complexité (par exemple, longueur minimale, présence de chiffres ou de majuscules).
-
-    role: { 
-      type: DataTypes.ENUM("admin", "user", "moderator"), 
-      defaultValue: "user" 
+    {
+      timestamps: true, // Active createdAt et updatedAt
+      hooks: {
+        // Hache le mot de passe avant la création
+        beforeCreate: async (user) => {
+          if (user.password) {
+            user.password = await bcrypt.hash(user.password, 10);
+          }
+        },
+        // Hache le mot de passe avant la mise à jour
+        beforeUpdate: async (user) => {
+          if (user.password) {
+            user.password = await bcrypt.hash(user.password, 10);
+          }
+        },
+      },
     }
-    // Explication : La colonne `role` est une énumération limitée à trois rôles possibles. Une valeur par défaut ("user") est définie si aucun rôle n'est spécifié.
-    // Alternative : Si vous avez besoin de rôles personnalisables ou extensibles, remplacez `ENUM` par `STRING` et gérez les permissions via une table dédiée ou une logique métier.
-  }, {
-    timestamps: true,
-    // Explication : Active automatiquement les champs `createdAt` et `updatedAt` pour suivre les modifications dans la base de données.
-    // Alternative : Si ces champs ne sont pas nécessaires, définissez `timestamps: false` pour réduire la taille de la table.
+  );
 
-    hooks: {
-      beforeCreate: async (user) => {
-        if (user.password) {
-          const salt = await bcrypt.genSalt(10);
-          user.password = await bcrypt.hash(user.password, salt);
-        }
-      }
-      // Explication : Ce hook est exécuté avant la création d'un utilisateur. Il hache le mot de passe avec `bcrypt` pour renforcer la sécurité.
-      // Alternative : Utilisez une bibliothèque comme `argon2` pour un hachage plus robuste ou ajustez le nombre de rounds de salage (`genSalt`) selon vos besoins.
-    }
-  });
-  return User;
+  return User; // ✅ Correction : Assure le retour du modèle
 };

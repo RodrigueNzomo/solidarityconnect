@@ -28,7 +28,8 @@ ARG BUILD_MODE=production
 # Variable d'argument pour choisir le mode de build.
 # Alternative : Il est possible d'ajouter un mode `staging` ou `development` si vous gérez plusieurs environnements.
 
-RUN npm run build --configuration=${BUILD_MODE} --output-hashing=none && rm -rf node_modules
+RUN npm run build --configuration=production --output-hashing=none && rm -rf node_modules
+
 # Compilation Angular et suppression des node_modules après build pour réduire la taille de l’image finale.
 # Alternative : Si vous ne voulez pas supprimer `node_modules`, modifiez la ligne pour les garder.
 

@@ -1,0 +1,153 @@
+/* 🌟 Page de connexion avec image de fond */
+.login-page {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: url('/assets/community-hands.jpeg') center/cover no-repeat;
+    backdrop-filter: blur(5px);
+    flex-wrap: wrap;
+    padding: 20px;
+}
+
+/* 📌 Conteneur principal */
+.login-container {
+    max-width: 400px;
+    padding: 25px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.15);
+    text-align: center;
+}
+
+/* 📌 Titre */
+.login-container h2 {
+    color: var(--primary-color);
+    font-size: 24px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+/* 📌 Champs de saisie */
+.login-container input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    margin-bottom: 12px;
+    font-size: 1rem;
+    transition: all 0.3s ease-in-out;
+}
+
+/* 🔥 Effet focus */
+.login-container input:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0px 0px 5px rgba(93, 156, 236, 0.3);
+}
+
+/* 📌 Bouton de connexion */
+.btn-login {
+    width: 100%;
+    padding: 12px;
+    background: var(--success-color);
+    color: white;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    border: none;
+}
+
+.btn-login:hover {
+    background: var(--primary-color);
+    box-shadow: 0px 4px 10px rgba(93, 156, 236, 0.3);
+}
+
+/* 📌 Lien vers l'inscription */
+.register-link {
+    font-size: 0.9rem;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.register-link a {
+    color: var(--secondary-color);
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+}
+
+/* 📌 Lien mot de passe oublié */
+.forgot-password {
+    text-align: center;
+    color: var(--accent-color);
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.forgot-password a {
+    text-decoration: none;
+    color: var(--accent-color);
+}
+
+.forgot-password a:hover {
+    text-decoration: underline;
+}
+
+/* 📌 Section informative */
+.info-container {
+    max-width: 400px;
+    padding: 25px;
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 12px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    margin-left: 20px;
+}
+
+.info-container h3 {
+    color: var(--primary-color);
+    font-size: 22px;
+    margin-bottom: 15px;
+}
+
+.info-container p {
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+.info-container ul {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+}
+
+.info-container ul li {
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+    padding-left: 10px;
+}
+
+/* 📌 Bouton d'inscription */
+.btn-more {
+    display: inline-block;
+    padding: 10px 15px;
+    background: var(--secondary-color);
+    color: white;
+    border-radius: 6px;
+    font-weight: bold;
+    text-decoration: none;
+    margin-top: 10px;
+    transition: all 0.3s ease-in-out;
+}
+
+.btn-more:hover {
+    background: var(--accent-color);
+    box-shadow: 0px 4px 10px rgba(255, 140, 66, 0.3);
+}

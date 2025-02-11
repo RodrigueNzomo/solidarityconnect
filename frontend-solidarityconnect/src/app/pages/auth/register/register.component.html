@@ -1,0 +1,82 @@
+<div class="register-page">
+  <div class="register-container">
+    <h2>Inscription</h2>
+    <form (ngSubmit)="onRegister()" #registerForm="ngForm">
+
+      <!-- 🏷️ Identité -->
+      <div class="form-group">
+        <input type="text" [(ngModel)]="firstName" name="firstName" required placeholder="Prénom">
+        <input type="text" [(ngModel)]="lastName" name="lastName" required placeholder="Nom">
+      </div>
+
+      <div class="form-group">
+        <input type="date" [(ngModel)]="birthDate" name="birthDate" required>
+        <select [(ngModel)]="gender" name="gender" required>
+          <option value="">Sélectionner le sexe</option>
+          <option value="Homme">Homme</option>
+          <option value="Femme">Femme</option>
+        </select>
+      </div>
+
+      <!-- 🏠 Situation Familiale -->
+      <div class="form-group">
+        <select [(ngModel)]="maritalStatus" name="maritalStatus" required>
+          <option value="">État Civil</option>
+          <option value="Célibataire">Célibataire</option>
+          <option value="Marié(e)">Marié(e)</option>
+          <option value="Veuf(ve)">Veuf(ve)</option>
+        </select>
+        <input type="number" [(ngModel)]="childrenCount" name="childrenCount" required placeholder="Nombre d'enfants">
+      </div>
+
+      <!-- 📍 Coordonnées -->
+      <div class="form-group">
+        <input type="email" [(ngModel)]="email" name="email" required placeholder="Email">
+        <input type="tel" [(ngModel)]="phone" name="phone" required placeholder="Téléphone">
+      </div>
+      <input type="text" [(ngModel)]="address" name="address" required placeholder="Adresse complète">
+
+      <!-- 💼 Profession -->
+      <input type="text" [(ngModel)]="job" name="job" required placeholder="Profession">
+
+      <!-- 🎭 Sélection du rôle -->
+      <select [(ngModel)]="userRole" name="userRole" required (change)="onRoleChange()">
+        <option value="">Vous êtes ?</option>
+        <option value="Personne en difficulté">Personne en difficulté</option>
+        <option value="Bénévole">Bénévole</option>
+      </select>
+
+      <!-- ✅ Besoins spécifiques (si utilisateur en difficulté) -->
+      <div *ngIf="userRole === 'Personne en difficulté'" class="conditional-input">
+        <label>Quels sont vos besoins ?</label>
+        <select [(ngModel)]="needs" name="needs" required>
+          <option value="Logement">Logement</option>
+          <option value="Nourriture">Nourriture</option>
+          <option value="Aide financière">Aide financière</option>
+          <option value="Accompagnement social">Accompagnement social</option>
+        </select>
+      </div>
+
+      <!-- 💡 Compétences spécifiques (si bénévole) -->
+      <div *ngIf="userRole === 'Bénévole'" class="conditional-input">
+        <label>Quelles sont vos compétences ?</label>
+        <select [(ngModel)]="skills" name="skills" required>
+          <option value="Aide médicale">Aide médicale</option>
+          <option value="Aide juridique">Aide juridique</option>
+          <option value="Éducation">Éducation</option>
+          <option value="Accompagnement social">Accompagnement social</option>
+        </select>
+      </div>
+
+      <!-- 🔑 Mot de passe -->
+      <div class="form-group">
+        <input type="password" [(ngModel)]="password" name="password" required placeholder="Mot de passe">
+        <input type="password" [(ngModel)]="confirmPassword" name="confirmPassword" required placeholder="Confirmez le mot de passe">
+      </div>
+
+      <button type="submit" class="btn-register">S'inscrire</button>
+      <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
+
+    </form>
+  </div>
+</div>

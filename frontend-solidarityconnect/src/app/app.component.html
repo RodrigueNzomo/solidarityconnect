@@ -1,12 +1,89 @@
+<!-- Barre de navigation (Toujours visible) -->
+<app-navbar></app-navbar>
+
+<!-- Conteneur principal (Masqué sur login/register) -->
+<header class="container text-center py-5" *ngIf="!isAuthPage">
+    <h1 class="text-primary">Bienvenue sur SolidarityConnect 🎉</h1>
+
+    <!-- Carrousel des Besoins des Utilisateurs -->
+    <div id="userNeedsCarousel" class="carousel slide user-needs-carousel my-4" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="/assets/community-hands.jpeg" class="d-block carousel-image" alt="Bénévoles">
+                <div class="carousel-caption">
+                    <h5 class="text-light bg-primary p-2 rounded">Bénévoles</h5>
+                    <p class="text-light">Opportunités d'aide selon compétences et disponibilité.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="/assets/helping-hand.avif" class="d-block carousel-image" alt="Personnes en difficulté">
+                <div class="carousel-caption">
+                    <h5 class="text-light bg-warning p-2 rounded">Personnes en difficulté</h5>
+                    <p class="text-light">Publier des demandes claires et accéder aux bénévoles proches.</p>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#userNeedsCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Précédent</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#userNeedsCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Suivant</span>
+        </button>
+    </div>
+
+    <p class="lead">Une plateforme de mise en relation entre Personnes en difficulté et bénévoles pour des actions solidaires.</p>
+    <a routerLink="/register" class="btn btn-primary mt-3">Rejoindre la Plateforme</a>
+</header>
+
+<!-- Image de fond (Masqué sur login/register) -->
+<div class="hero-section" *ngIf="!isAuthPage">
+    <img src="/assets/background-solidarity.jpg" alt="Solidarity Background" class="hero-image">
+</div>
+
+<!-- Affichage dynamique des pages -->
 <router-outlet></router-outlet>
 
-<h1>Bienvenue sur mon application Angular 🎉</h1>
-<p>Cette application est maintenant bien en place !</p>
+<!-- Section des fonctionnalités (Masqué sur login/register) -->
+<section class="features-section py-5" *ngIf="!isAuthPage">
+    <div class="container">
+        <h2 class="text-center text-secondary mb-4">Nos Fonctionnalités</h2>
+        <div class="row">
+            <div class="col-md-4" *ngFor="let feature of features">
+                <div class="card mb-4 text-center">
+                    <img [src]="feature.image" [alt]="feature.title" class="feature-icon">
+                    <h5 class="card-title">{{ feature.title }}</h5>
+                    <p class="card-text">{{ feature.description }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
-<nav>
-  <ul>
-    <li><a routerLink="/">Accueil</a></li>
-  </ul>
-</nav>
-
-
+<!-- Pied de page (Toujours visible) -->
+<footer class="footer bg-light text-center py-4">
+    <div class="container">
+        <img src="/assets/logo-symbol-only.avif" alt="Logo SolidarityConnect" class="footer-logo mb-3">
+        <p>© 2025 SolidarityConnect | Une initiative solidaire et technologique.</p>
+        <!-- Liens de réseaux sociaux -->
+        <div class="btn-group">
+            <a href="https://www.facebook.com/nzomonzogangrodrigue/" target="_blank" rel="noopener noreferrer"
+                class="btn btn-primary">
+                <i class="fab fa-facebook-f"></i> Facebook
+            </a>
+            <a href="https://github.com/RodrigueNzomo" target="_blank" rel="noopener noreferrer"
+                class="btn btn-dark">
+                <i class="fab fa-github"></i> GitHub
+            </a>
+            <a href="https://www.linkedin.com/in/rodrigue-nzogang/" target="_blank" rel="noopener noreferrer"
+                class="btn btn-primary">
+                <i class="fab fa-linkedin-in"></i> LinkedIn
+            </a>
+            <a href="https://www.instagram.com/rodriguenzogang/" target="_blank" rel="noopener noreferrer"
+                class="btn btn-danger">
+                <i class="fab fa-instagram"></i> Instagram
+            </a>
+        </div>
+    </div>
+</footer>

@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/pages/dashboard/dashboard/dashboard.component.css"],
+  "sourcesContent": ["/* \uD83C\uDF1F Styles pour le tableau de bord */\n.dashboard-container {\n    padding: 30px;\n    background: var(--background-color);\n}\n\n.card {\n    border-radius: 10px;\n    padding: 20px;\n    text-align: center;\n    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);\n    transition: transform 0.3s ease-in-out;\n}\n\n.card:hover {\n    transform: translateY(-5px);\n}\n\n.card img {\n    width: 80px;\n    height: 80px;\n    margin-bottom: 10px;\n}\n"],
+  "mappings": ";AACA,CAAC;AACG,WAAS;AACT,cAAY,IAAI;AACpB;AAEA,CAAC;AACG,iBAAe;AACf,WAAS;AACT,cAAY;AACZ,cAAY,IAAI,IAAI,KAAK,KAAK,CAAC,EAAE,CAAC,EAAE,CAAC,EAAE;AACvC,cAAY,UAAU,KAAK;AAC/B;AAEA,CARC,IAQI;AACD,aAAW,WAAW;AAC1B;AAEA,CAZC,KAYK;AACF,SAAO;AACP,UAAQ;AACR,iBAAe;AACnB;",
+  "names": []
+}

@@ -1,0 +1,106 @@
+/* 🌟 Page d'inscription avec image de fond */
+.register-page {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: url('/assets/background-solidarity.jpg') center/cover no-repeat;
+    backdrop-filter: blur(4px);
+}
+
+/* 📌 Conteneur principal */
+.register-container {
+    max-width: 500px;
+    padding: 25px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.15);
+    text-align: center;
+}
+
+/* 📌 Titre */
+.register-container h2 {
+    color: var(--primary-color);
+    font-size: 24px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+/* 📌 Champs de saisie et sélection */
+.register-container input,
+.register-container select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    margin-bottom: 12px;
+    font-size: 1rem;
+    transition: all 0.3s ease-in-out;
+}
+
+/* 🔥 Effet focus */
+.register-container input:focus,
+.register-container select:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0px 0px 5px rgba(93, 156, 236, 0.3);
+}
+
+/* 📌 Sections conditionnelles */
+.conditional-input {
+    background: rgba(93, 156, 236, 0.05);
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+/* 📌 Bouton d'inscription */
+.btn-register {
+    width: 100%;
+    padding: 12px;
+    background: var(--success-color);
+    color: white;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    border: none;
+}
+
+.btn-register:hover {
+    background: var(--primary-color);
+    box-shadow: 0px 4px 10px rgba(93, 156, 236, 0.3);
+}
+
+/* 📌 Message d'erreur */
+.error-message {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+/* 📌 Termes et conditions */
+.terms {
+    font-size: 0.9rem;
+    text-align: center;
+    margin-top: 10px;
+}
+
+/* 📱 Responsive Design */
+@media (max-width: 600px) {
+    .register-container {
+        width: 90%;
+        padding: 20px;
+    }
+    
+    .register-container h2 {
+        font-size: 22px;
+    }
+
+    .btn-register {
+        font-size: 1rem;
+    }
+}

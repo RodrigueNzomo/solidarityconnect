@@ -1,0 +1,10 @@
+<nav>
+    <ul>
+      <li><a routerLink="/">Accueil</a></li>
+      <li><a routerLink="/login" *ngIf="!isLoggedIn()">Connexion</a></li>
+      <li><a routerLink="/register" *ngIf="!isLoggedIn()">Inscription</a></li>
+      <li><a routerLink="/dashboard" *ngIf="isLoggedIn()">Tableau de bord</a></li>
+      <li><button (click)="logout()" *ngIf="isLoggedIn()">Déconnexion</button></li>
+    </ul>
+  </nav>
+  

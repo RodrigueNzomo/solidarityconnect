@@ -1,0 +1,121 @@
+/* 🌟 Styles Modernes pour SolidarityConnect */
+:root {
+    --primary-color: #5D9CEC;
+    --secondary-color: #FF8C42;
+    --accent-color: #E74C3C;
+    --background-color: #F5F5F5;
+    --text-color: #333;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+}
+
+/* 📌 CONTENEUR PRINCIPAL */
+header.container {
+    background: linear-gradient(to bottom, rgba(93, 156, 236, 0.2), rgba(255, 140, 66, 0.2));
+    padding: 60px 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+header p.lead {
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+/* 📌 CARROUSEL DES BESOINS DES UTILISATEURS */
+.user-needs-carousel {
+    max-width: 900px;
+    margin: 0 auto;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.carousel img {
+    height: 400px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.carousel-caption {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    border-radius: 10px;
+}
+
+/* 📌 SECTION FONCTIONNALITÉS */
+.features-section .card {
+    border-radius: 10px;
+    padding: 20px;
+    transition: transform 0.3s ease-in-out;
+    background: white;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.features-section .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.feature-icon {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+}
+
+/* 📌 PIED DE PAGE */
+footer {
+    background: var(--primary-color);
+    color: rgb(10, 0, 0);
+    padding: 20px;
+    text-align: center;
+    position: relative;
+    border-top: 5px solid var(--secondary-color);
+}
+
+.footer-logo {
+    width: 100px;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.btn-group .btn {
+    margin: 5px;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+/* 📌 RESPONSIVE DESIGN */
+@media (max-width: 768px) {
+    .carousel img {
+        height: 250px;
+    }
+    
+    header h1 {
+        font-size: 2rem;
+    }
+
+    header p.lead {
+        font-size: 1rem;
+    }
+
+    .features-section .card {
+        padding: 15px;
+    }
+
+    .footer-logo {
+        width: 80px;
+    }
+}

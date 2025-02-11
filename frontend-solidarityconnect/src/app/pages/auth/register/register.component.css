@@ -1,4 +1,4 @@
-/* 🌟 Page d'inscription avec image de fond */
+/* 🌟 Page d'inscription avec une image de fond et un effet glassmorphism */
 .register-page {
     width: 100%;
     min-height: 100vh;
@@ -6,37 +6,58 @@
     justify-content: center;
     align-items: center;
     background: url('/assets/background-solidarity.jpg') center/cover no-repeat;
+    position: relative;
+}
+
+/* 🌟 Ajout d'un voile semi-transparent pour améliorer la lisibilité */
+.register-page::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.2); /* Assombri légèrement le fond */
     backdrop-filter: blur(4px);
+    z-index: 1;
 }
 
 /* 📌 Conteneur principal */
 .register-container {
     max-width: 500px;
-    padding: 25px;
-    background: rgba(255, 255, 255, 0.9);
+    width: 90%;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.85); /* Effet verre */
     border-radius: 12px;
-    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.15);
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15);
     text-align: center;
+    position: relative;
+    z-index: 2;
+    animation: fadeIn 1s ease-in-out;
 }
 
 /* 📌 Titre */
 .register-container h2 {
     color: var(--primary-color);
-    font-size: 24px;
-    margin-bottom: 20px;
+    font-size: 26px;
+    margin-bottom: 15px;
     font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 /* 📌 Champs de saisie et sélection */
 .register-container input,
 .register-container select {
     width: 100%;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    margin-bottom: 12px;
+    padding: 14px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 15px;
     font-size: 1rem;
     transition: all 0.3s ease-in-out;
+    background: rgba(255, 255, 255, 0.6);
+    box-shadow: inset 0px 2px 5px rgba(0, 0, 0, 0.05);
 }
 
 /* 🔥 Effet focus */
@@ -44,34 +65,40 @@
 .register-container select:focus {
     border-color: var(--primary-color);
     outline: none;
-    box-shadow: 0px 0px 5px rgba(93, 156, 236, 0.3);
+    box-shadow: 0px 0px 8px rgba(0, 123, 255, 0.4);
 }
 
 /* 📌 Sections conditionnelles */
 .conditional-input {
-    background: rgba(93, 156, 236, 0.05);
+    background: rgba(0, 123, 255, 0.05);
     padding: 15px;
     border-radius: 8px;
     margin-bottom: 15px;
+    border-left: 4px solid var(--primary-color);
 }
 
 /* 📌 Bouton d'inscription */
 .btn-register {
     width: 100%;
-    padding: 12px;
-    background: var(--success-color);
+    padding: 14px;
+    background: var(--accent-color);
     color: white;
-    border-radius: 6px;
+    border-radius: 8px;
     font-weight: bold;
     font-size: 1.1rem;
     transition: all 0.3s ease-in-out;
     cursor: pointer;
     border: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.15);
 }
 
+/* 🎨 Effet au survol */
 .btn-register:hover {
     background: var(--primary-color);
-    box-shadow: 0px 4px 10px rgba(93, 156, 236, 0.3);
+    box-shadow: 0px 8px 15px rgba(0, 123, 255, 0.4);
+    transform: translateY(-2px);
 }
 
 /* 📌 Message d'erreur */
@@ -80,13 +107,17 @@
     font-size: 0.9rem;
     margin-top: 10px;
     font-weight: bold;
+    background: rgba(255, 0, 0, 0.1);
+    padding: 5px;
+    border-radius: 5px;
 }
 
 /* 📌 Termes et conditions */
 .terms {
     font-size: 0.9rem;
     text-align: center;
-    margin-top: 10px;
+    margin-top: 15px;
+    color: var(--text-color);
 }
 
 /* 📱 Responsive Design */
@@ -102,5 +133,17 @@
 
     .btn-register {
         font-size: 1rem;
+    }
+}
+
+/* 🎬 Animation d'entrée */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }

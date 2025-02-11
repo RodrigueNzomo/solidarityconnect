@@ -1,114 +1,185 @@
-/* 🌟 NAVBAR MODERNE ET DYNAMIQUE */
+/* 🌟 Variables Globales */
+:root {
+    --primary-color: #0056b3;
+    --secondary-color: #002855;
+    --accent-color: #FFD700;
+    --danger-color: #ff4c4c;
+    --text-light: white;
+    --text-dark: #1e40af;
+    --border-radius: 8px;
+    --transition: all 0.3s ease-in-out;
+}
+
+/* 🌟 Style Général de la Navbar */
 .navbar {
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-    padding: 15px 30px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
-    transition: all 0.3s ease-in-out;
-}
-
-/* 🔥 Animation au survol */
-.navbar:hover {
-    background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
-}
-
-/* 🏆 Logo et Marque */
-.navbar-brand {
-    font-size: 1.8rem;
-    font-weight: bold;
-    color: white;
-    text-transform: uppercase;
-    letter-spacing: 1px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    padding: 10px 20px;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+    height: 55px; /* ✅ Réduction pour plus de visibilité */
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    backdrop-filter: blur(8px); /* ✅ Ajout d'un effet de flou */
+}
+
+/* 📌 Logo & Titre */
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--accent-color);
+    text-decoration: none;
+    transition: var(--transition);
+    animation: vibrate 1.5s infinite alternate;
 }
 
 .navbar-brand img {
-    width: 40px;
-    height: 40px;
+    width: 45px;
+    height: 45px;
     margin-right: 10px;
     border-radius: 50%;
+    transition: transform 0.3s ease-in-out;
+}
+
+/* 🔥 Effet au survol */
+.navbar-brand:hover {
+    color: var(--text-light);
+}
+
+.navbar-brand:hover img {
+    transform: scale(1.1) rotate(3deg);
+}
+
+/* 📌 Conteneur des Liens */
+.nav-links-container {
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid var(--accent-color);
+    border-radius: var(--border-radius);
+    padding: 8px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    transition: var(--transition);
+    position: relative;
+    top: 0;
+}
+
+/* 🟡 Effet au survol */
+.nav-links-container:hover {
+    background: var(--accent-color);
+    transform: scale(1.05);
+}
+
+/* 📌 Menu de Navigation */
+.navbar-nav {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 15px; /* ✅ Espacement amélioré */
+    margin: 0;
+    padding: 0;
 }
 
 /* 📌 Liens de Navigation */
-.navbar-nav {
-    display: flex;
-    gap: 20px;
-}
-
 .nav-link {
-    color: white;
-    font-weight: 500;
-    font-size: 1.1rem;
-    transition: all 0.3s ease-in-out;
-    position: relative;
+    color: var(--text-dark);
+    font-weight: bold;
+    font-size: 1rem;
+    text-decoration: none;
+    padding: 8px 15px;
+    transition: var(--transition);
+    border-radius: var(--border-radius);
 }
 
-/* 🌟 Effet souligné au survol */
-.nav-link::after {
-    content: "";
-    display: block;
-    width: 0;
-    height: 3px;
-    background: var(--accent-color);
-    transition: width 0.3s ease-in-out;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: -5px;
-}
-
-.nav-link:hover::after {
-    width: 100%;
-}
-
+/* 🔥 Effet au survol */
 .nav-link:hover {
-    color: var(--accent-color);
+    background: var(--accent-color);
+    color: var(--secondary-color);
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.2);
+    transform: scale(1.05);
 }
 
-/* 🔥 Bouton de connexion */
-.navbar .btn-login {
-    background: var(--accent-color);
-    color: white;
+/* 🛠 Bouton de Connexion/Déconnexion */
+.btn-login {
+    background: var(--danger-color);
+    color: var(--text-light);
     font-weight: bold;
     padding: 8px 15px;
     border-radius: 20px;
-    transition: all 0.3s ease-in-out;
     border: none;
+    cursor: pointer;
+    transition: var(--transition);
 }
 
-.navbar .btn-login:hover {
-    background: white;
-    color: var(--accent-color);
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+.btn-login:hover {
+    background: var(--text-light);
+    color: var(--danger-color);
+    box-shadow: 0px 4px 10px rgba(20, 127, 134, 0.2);
 }
 
-/* 📌 Icône du menu burger */
-.navbar-toggler {
-    background: rgba(255, 255, 255, 0.8);
-    border: none;
-    padding: 8px;
-    border-radius: 5px;
+/* 📌 Animation Vibrante */
+@keyframes vibrate {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-3px);
+    }
 }
 
-.navbar-toggler-icon {
-    filter: invert(1);
+/* 📌 Amélioration du Logo */
+.navbar-brand img {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+    border-radius: 50%;
+    transition: transform 0.3s ease-in-out;
 }
 
-/* 📱 RESPONSIVE DESIGN */
-@media (max-width: 992px) {
+/* 📱 Responsive Design */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        height: auto;
+        padding: 15px;
+    }
+
+    .navbar-brand {
+        font-size: 1.4rem;
+        text-align: center;
+    }
+
+    .navbar-brand img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .nav-links-container {
+        flex-direction: column;
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px; /* ✅ Ajustement */
+    }
+
     .navbar-nav {
         flex-direction: column;
-        align-items: center;
         gap: 10px;
     }
 
     .nav-link {
-        font-size: 1rem;
-        padding: 10px;
+        font-size: 0.9rem;
+        padding: 8px;
     }
 
-    .navbar .btn-login {
+    .btn-login {
+        margin-top: 10px;
         width: 100%;
-        text-align: center;
     }
 }

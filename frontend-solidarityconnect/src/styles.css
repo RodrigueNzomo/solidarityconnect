@@ -1,15 +1,18 @@
-/* 🌟 Variables Globales - Palette de Couleurs */
-:root {
-    --primary-color: #5D9CEC;
-    --secondary-color: #FF8C42;
-    --accent-color: #E74C3C;
-    --background-color: #F5F5F5;
-    --text-color: #333;
+/* ==============================
+   🌍 GLOBAL STYLES - styles.css
+   ============================== */
+   :root {
+    --primary-color: #007bff;
+    --secondary-color: #ff6600;
+    --accent-color: #ffcc00;
+    --background-color: hwb(158 88% 9%);
+    --text-color: #222;
     --light-gray: #eaeaea;
-    --shadow-color: rgba(0, 0, 0, 0.15);
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --border-radius: 8px;
+    --transition: all 0.3s ease-in-out;
 }
 
-/* 🌍 Style Global */
 body {
     font-family: 'Poppins', sans-serif;
     background-color: var(--background-color);
@@ -20,114 +23,33 @@ body {
     overflow-x: hidden;
 }
 
-/* 🌟 Conteneur Principal */
 .container {
     max-width: 1200px;
     margin: auto;
     padding: 20px;
 }
 
-/* 🌟 Conteneur Global */
-section {
-    padding: 40px 0;
-}
-
-/* 🌟 Conteneur Principal */
-header.container {
-    background: linear-gradient(to bottom, rgba(93, 156, 236, 0.2), rgba(255, 140, 66, 0.2));
-    padding: 60px 20px;
-    border-radius: 10px;
-    text-align: center;
-    box-shadow: 0px 4px 10px var(--shadow-color);
-}
-
-header h1 {
-    font-size: 2.5rem;
-    font-weight: bold;
-    color: var(--primary-color);
-}
-
-header p.lead {
-    font-size: 1.2rem;
-    font-weight: 500;
-}
-
-/* 🌟 Carrousel des Besoins des Utilisateurs */
-.user-needs-carousel {
-    max-width: 800px;
-    margin: auto;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0px 4px 10px var(--shadow-color);
-}
-
-.carousel-image {
-    width: 100%;
-    height: 350px;
-    object-fit: cover;
-    border-radius: 10px;
-}
-
-.carousel-caption {
-    background: rgba(0, 0, 0, 0.6);
-    padding: 15px;
-    border-radius: 10px;
-}
-
-.carousel-caption h5 {
-    font-size: 1.3rem;
-    font-weight: bold;
-    color: white;
-}
-
-.carousel-caption p {
-    font-size: 1rem;
-    color: white;
-}
-
-/* 📌 Carrousel Navigation */
-.carousel-control-prev-icon,
-.carousel-control-next-icon {
-    background-color: rgba(0, 0, 0, 0.5);
-    border-radius: 50%;
-}
-
 /* 🌟 Section Hero */
 .hero-section {
     width: 100%;
-    height: 300px;
-    overflow: hidden;
+    height: 400px;
     display: flex;
     justify-content: center;
     align-items: center;
-    background: rgba(0, 0, 0, 0.2);
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: rgb(73, 8, 8);
+    text-align: center;
+    border-radius: var(--border-radius);
+    box-shadow: 0px 4px 12px var(--shadow-color);
 }
 
-.hero-image {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
+.hero-section h1 {
+    font-size: 2.8rem;
+    font-weight: bold;
 }
 
-/* 🌟 Section Fonctionnalités */
-.features-section .card {
-    border-radius: 10px;
-    padding: 20px;
-    transition: transform 0.3s ease-in-out;
-    background: white;
-    box-shadow: 0px 4px 10px var(--shadow-color);
-}
-
-.features-section .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0px 8px 20px var(--shadow-color);
-}
-
-.feature-icon {
-    width: 80px;
-    height: 80px;
-    margin-bottom: 15px;
-    border-radius: 10px;
+.hero-section p {
+    font-size: 1.3rem;
 }
 
 /* 🌟 Boutons */
@@ -137,8 +59,8 @@ header p.lead {
     border: none;
     padding: 12px 20px;
     font-weight: bold;
-    border-radius: 6px;
-    transition: all 0.3s ease-in-out;
+    border-radius: var(--border-radius);
+    transition: var(--transition);
     cursor: pointer;
 }
 
@@ -147,51 +69,91 @@ header p.lead {
     box-shadow: 0px 4px 10px var(--shadow-color);
 }
 
-/* 🌟 Pied de Page */
-footer {
-    background: var(--primary-color);
+/* 🌍 Footer Global */
+.footer {
+    background: linear-gradient(135deg, #002855, #0056b3);
     color: white;
-    padding: 20px;
+    padding: 30px 20px;
     text-align: center;
-    border-top: 5px solid var(--secondary-color);
+    border-top: 4px solid #FFD700;
+}
+
+.footer .container {
+    max-width: 1100px;
+    margin: auto;
+}
+
+/* 🏆 Logo et texte */
+.footer-top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 15px;
 }
 
 .footer-logo {
-    width: 100px;
+    width: 70px;
     height: auto;
     margin-bottom: 10px;
 }
 
-.btn-group .btn {
-    margin: 5px;
-    border-radius: 20px;
-    font-weight: bold;
+/* 🔹 Organisation des sections */
+.footer-content {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
 }
 
-/* 📱 Responsive Design */
+.footer-section {
+    flex: 1;
+    min-width: 250px;
+    text-align: left;
+}
+
+.footer-section h4 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #FFD700;
+    text-transform: uppercase;
+}
+
+/* 📌 Liste des fonctionnalités */
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-section ul li {
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+}
+
+/* 🌐 Réseaux sociaux */
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.social-links a {
+    font-size: 1.5rem;
+    color: white;
+    transition: 0.3s ease-in-out;
+}
+
+.social-links a:hover {
+    color: #FFD700;
+}
+
+/* 📱 Responsive */
 @media (max-width: 768px) {
-    .carousel-image {
-        height: 250px;
-    }
-    
-    header h1 {
-        font-size: 2rem;
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
     }
 
-    header p.lead {
-        font-size: 1rem;
-    }
-
-    .features-section .card {
-        padding: 15px;
-    }
-
-    .footer-logo {
-        width: 80px;
-    }
-
-    .btn-primary {
-        padding: 10px 15px;
-        font-size: 0.9rem;
+    .footer-section {
+        margin-bottom: 15px;
     }
 }
